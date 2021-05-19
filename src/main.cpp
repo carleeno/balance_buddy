@@ -22,7 +22,7 @@ void setup()
 void loop()
 {
   esc.loop();
-  balanceDisplay.loop(esc.tempMosfet, esc.dutyCycle, esc.voltage, esc.balanceState, esc.switchState, esc.adc1, esc.adc2);
+  balanceDisplay.loop(esc.tempMosfet, esc.tempMotor, esc.dutyCycle, esc.voltage, esc.balanceState, esc.switchState, esc.adc1, esc.adc2);
   balanceBeeper.loop(esc.dutyCycle, esc.erpm, esc.switchState, esc.voltage);
   balanceLEDs.loop(esc.erpm, esc.switchState);
 }
