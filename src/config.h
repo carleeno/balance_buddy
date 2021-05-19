@@ -13,23 +13,24 @@ Settings for balance_beeper
 Settings for balance_display
 */
 
+#define SCREEN_WIDTH 128 // OLED display width, in pixels
+#define SCREEN_HEIGHT 64 // OLED display height, in pixels
+
 /* Uncomment below if using I2C, otherwise use SPI
 i2c is very slow, using it will cause inconsistent beeper timings
 long i2c wires are not recommended and may cause crashing */
 
-// #define USE_I2C
-
+//#define USE_I2C
 #ifdef USE_I2C
 #include <Wire.h>
-#include "SSD1306AsciiWire.h"
-// other pins: SDA=21, SCL=22
+#define I2C_ADDR 0x3c
+// i2c pins: SDA=21, SCL=22
 #else
 #include <SPI.h>
-#include "SSD1306AsciiSpi.h"
-#define CS_PIN 5
-#define DC_PIN 16
-#define RES_PIN 17
-// other pins: SCK=18, D1(MOSI)=23
+#define OLED_DC 16
+#define OLED_CS 5
+#define OLED_RESET 17
+// hw spi pins: SCK=18, D1(MOSI)=23
 #endif
 
 #define REFRESH_INTERVAL 100 // 100ms = 0.1s = 10hz
