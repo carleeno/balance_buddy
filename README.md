@@ -54,6 +54,18 @@ All features are specified in config.h
 
 Just open the project with platformio and click upload
 
+## Updating firmware over Wifi
+
+Set your wifi ssid, password, and device hostname in config.h
+
+Uncomment these 2 lines in platformio.ini
+* `upload_protocol = espota`
+* `upload_port = (hostname).local` with (hostname) defined in config.h
+
+If hostname doesn't work, set `upload_port` to the ip address of the esp32.
+
+If it can't upload, try power/cycling the device so it reconnects to wifi.
+
 # Why does my balance buddy keep crashing?!!!
 
 Applicable to I2C:
