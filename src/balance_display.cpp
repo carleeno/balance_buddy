@@ -14,6 +14,7 @@ private:
 #endif
   long lastRenderMillis = 0;
   int line = 1;
+  double dc_step = 1.0 / (SCREEN_WIDTH - 2);
 
 public:
   void setup()
@@ -25,7 +26,7 @@ public:
 #endif
   }
 
-  void loop(double tempMosfet, double dutyCycle, double voltage, uint16_t balanceState, uint16_t switchState, double adc1, double adc2)
+  void loop(double tempMosfet, double tempMotor, double dutyCycle, double voltage, uint16_t balanceState, uint16_t switchState, double adc1, double adc2)
   {
     if (lastRenderMillis + REFRESH_INTERVAL < millis())
     {
@@ -39,13 +40,14 @@ public:
       oled.setFont();
       oled.setTextSize(1);
       oled.print(voltage);
-      oled.print("V");
-      oled.print("  ");
+      oled.print("V ");
       oled.print(tempMosfet);
-      oled.println("c");
+      oled.print("c ");
+      oled.print(tempMotor);
+      oled.print("c");
 
       // Line 2: ADC Switches
-      oled.setCursor(0, 12);
+      oled.setCursor(0, 16);
       oled.setFont();
       oled.setTextSize(1);
       oled.print("ADC1: ");
@@ -66,73 +68,77 @@ public:
       oled.setTextSize(1);
       oled.println();
       oled.print("ADC2: ");
-      oled.println(adc2);
+      oled.print(adc2);
 
       // Line 3: Balance state
-      oled.setCursor(0, 32);
+      oled.setCursor(0, 36);
       oled.setFont();
       if (balanceState == 0)
       {
-        oled.println("Calibrating");
+        oled.print("Calibrating");
       }
       else if (balanceState == 1)
       {
-        oled.println("Running");
+        oled.print("Running");
       }
       else if (balanceState == 2)
       {
-        oled.println("Run: Tiltback Duty");
+        oled.print("Run: Tiltback Duty");
       }
       else if (balanceState == 3)
       {
-        oled.println("Run: Tiltback HV");
+        oled.print("Run: Tiltback HV");
       }
       else if (balanceState == 4)
       {
-        oled.println("Run: Tiltback LV");
+        oled.print("Run: Tiltback LV");
       }
       else if (balanceState == 5)
       {
-        oled.println("Run: Tilt Constant");
+        oled.print("Run: Tilt Constant");
       }
       else if (balanceState == 6)
       {
-        oled.println("Fault: Pitch Angle");
+        oled.print("Fault: Pitch Angle");
       }
       else if (balanceState == 7)
       {
-        oled.println("Fault: Roll Angle");
+        oled.print("Fault: Roll Angle");
       }
       else if (balanceState == 8)
       {
-        oled.println("Fault: Switch Half");
+        oled.print("Fault: Switch Half");
       }
       else if (balanceState == 9)
       {
-        oled.println("Fault: Switch Full");
+        oled.print("Fault: Switch Full");
       }
       else if (balanceState == 10)
       {
-        oled.println("Fault: Duty");
+        oled.print("Fault: Duty");
       }
       else if (balanceState == 11)
       {
-        oled.println("Initial");
+        oled.print("Initial");
       }
       else
       {
         oled.print("Unknown: ");
         oled.print(balanceState);
-        oled.println("");
       }
 
-      // Line 4: Duty Cycle (up to 64 verical bars)
-      oled.setCursor(0, 52);
-      oled.setFont(&FreeSerif9pt7b);
-      for (float i = 0; i < fabsf(dutyCycle); i += 0.0313)
+      // Line 4: Duty Cycle (up to SCREEN_WIDTH-2 verical bars)
+      oled.drawRect(0, 48, SCREEN_WIDTH, 16, SSD1306_WHITE);
+      int pos = 1;
+      for (double i = dc_step; i <= fabs(dutyCycle); i += dc_step)
       {
-        oled.print("|");
+        oled.drawFastVLine(pos, 49, 14, SSD1306_WHITE);
+        pos++;
       }
+      oled.setCursor(2, 52);
+      oled.setTextColor(SSD1306_INVERSE);
+      oled.print(int (fabs(dutyCycle) * 100));
+      oled.print("%");
 
       // Write to oled
       oled.display();
