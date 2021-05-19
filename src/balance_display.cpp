@@ -1,7 +1,5 @@
 #include <Adafruit_SSD1306.h>
 #include "config.h"
-// Fonts:
-#include <Fonts/FreeSerif9pt7b.h>
 
 class BalanceDisplay
 {
