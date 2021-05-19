@@ -22,6 +22,11 @@ public:
 #else
     oled.begin(SSD1306_SWITCHCAPVCC);
 #endif
+    oled.clearDisplay();
+    oled.setTextColor(SSD1306_WHITE);
+    oled.setTextSize(1);
+    oled.println("Startup...");
+    oled.display();
   }
 
   void loop(double tempMosfet, double tempMotor, double dutyCycle, double voltage, uint16_t balanceState, uint16_t switchState, double adc1, double adc2)

@@ -1,4 +1,12 @@
 /*----------------------------------------------------------------------------------------
+Settings for ota_updater
+*/
+#define WIFI_SSID "yourWifiName"
+#define WIFI_PASS "your wifi password"
+
+#define HOSTNAME "my-vesc"
+
+/*----------------------------------------------------------------------------------------
 Settings for balance_beeper
 */
 #define BEEPER_PIN 27
