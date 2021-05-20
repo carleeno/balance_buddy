@@ -1,7 +1,7 @@
 #include <Adafruit_SSD1306.h>
 #include "config.h"
 
-class BalanceDisplay
+class BalanceDisplay // redefinition of 'class BalanceDisplay'
 {
 private:
 #ifdef USE_I2C
@@ -26,6 +26,14 @@ public:
     oled.setTextColor(SSD1306_WHITE);
     oled.setTextSize(1);
     oled.println("Startup...");
+    oled.display();
+  }
+
+  void println(String text) // This is the function I want to call from otaUpdater
+  {
+    oled.setTextColor(SSD1306_WHITE);
+    oled.setTextSize(1);
+    oled.println(text);
     oled.display();
   }
 

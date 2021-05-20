@@ -5,11 +5,11 @@
 #include "balance_beeper.cpp"
 #include "balance_leds.cpp"
 
-otaUpdater ota;
 ESC esc;
 BalanceDisplay balanceDisplay;
 BalanceBeeper balanceBeeper;
 BalanceLEDs balanceLEDs;
+otaUpdater ota(balanceDisplay); // here I want to pass this instance of BalanceDisplay to ota so I can call balanceDisplay.println() from ota
 
 void setup()
 {

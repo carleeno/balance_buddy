@@ -3,6 +3,7 @@
 #include <WiFiUdp.h>
 #include <ArduinoOTA.h>
 #include "config.h"
+#include "balance_display.cpp"
 
 class otaUpdater
 {
@@ -10,10 +11,16 @@ private:
   const char *ssid = WIFI_SSID;
   const char *password = WIFI_PASS;
 
+  BalanceDisplay *display; // Here I have no idea what I'm doing lol
+
 public:
+  otaUpdater(BalanceDisplay display) // trying to take instance of BalanceDisplay passed from main.cpp
+  {
+    display = display;
+  }
   void setup()
   {
-    Serial.println("Wifi Connecting...");
+    display.println("Wifi Connecting..."); // I want to replace all Serial.println with display.println from BalanceDisplay so it prints to OLED
     WiFi.mode(WIFI_STA);
     WiFi.begin(ssid, password);
     if (WiFi.waitForConnectResult() == WL_CONNECTED)
