@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include "ota_updater.cpp"
 #include "esc.cpp"
-#include "balance_display.cpp"
+#include "balance_display.h"
 #include "balance_beeper.cpp"
 #include "balance_leds.cpp"
 
@@ -9,11 +9,11 @@ ESC esc;
 BalanceDisplay balanceDisplay;
 BalanceBeeper balanceBeeper;
 BalanceLEDs balanceLEDs;
-otaUpdater ota(balanceDisplay); // here I want to pass this instance of BalanceDisplay to ota so I can call balanceDisplay.println() from ota
+otaUpdater ota(balanceDisplay);
 
 void setup()
 {
-  // Serial.begin(115200);
+  Serial.begin(115200);
 
   balanceDisplay.setup();
   ota.setup();

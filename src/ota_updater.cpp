@@ -3,7 +3,7 @@
 #include <WiFiUdp.h>
 #include <ArduinoOTA.h>
 #include "config.h"
-#include "balance_display.cpp"
+#include "balance_display.h"
 
 class otaUpdater
 {
@@ -11,16 +11,14 @@ private:
   const char *ssid = WIFI_SSID;
   const char *password = WIFI_PASS;
 
-  BalanceDisplay *display; // Here I have no idea what I'm doing lol
+  BalanceDisplay *display;
 
 public:
-  otaUpdater(BalanceDisplay display) // trying to take instance of BalanceDisplay passed from main.cpp
-  {
-    display = display;
-  }
+  otaUpdater(BalanceDisplay d):display(&d) {}
+
   void setup()
   {
-    display.println("Wifi Connecting..."); // I want to replace all Serial.println with display.println from BalanceDisplay so it prints to OLED
+    Serial.println("Wifi Connecting...");
     WiFi.mode(WIFI_STA);
     WiFi.begin(ssid, password);
     if (WiFi.waitForConnectResult() == WL_CONNECTED)
@@ -36,7 +34,7 @@ public:
       // ArduinoOTA.setPasswordHash("21232f297a57a5a743894a0e4a801fc3");
 
       ArduinoOTA
-          .onStart([]() {
+          .onStart([&]() {
             String type;
             if (ArduinoOTA.getCommand() == U_FLASH)
               type = "sketch";
@@ -46,13 +44,13 @@ public:
             // NOTE: if updating SPIFFS this would be the place to unmount SPIFFS using SPIFFS.end()
             Serial.println("Start updating " + type);
           })
-          .onEnd([]() {
+          .onEnd([&]() {
             Serial.println("Finished");
           })
-          .onProgress([](unsigned int progress, unsigned int total) {
+          .onProgress([&](unsigned int progress, unsigned int total) {
             Serial.println("Progress: " + progress / (total / 100));
           })
-          .onError([](ota_error_t error) {
+          .onError([&](ota_error_t error) {
             Serial.println("Error: " + error);
             if (error == OTA_AUTH_ERROR)
               Serial.println("Auth Failed");
@@ -73,11 +71,13 @@ public:
       Serial.println(WiFi.localIP().toString());
       Serial.println("Hostname:");
       Serial.println(HOSTNAME);
+      delay(5000);
     }
     else
     {
       Serial.println("Unable to connect to wifi");
       Serial.println("Restart to retry wifi");
+      delay(2000);
     }
   }
 
