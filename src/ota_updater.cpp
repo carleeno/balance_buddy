@@ -14,11 +14,11 @@ private:
   BalanceDisplay *display;
 
 public:
-  otaUpdater(BalanceDisplay d):display(&d) {}
+  otaUpdater(BalanceDisplay &d):display(&d) {}
 
   void setup()
   {
-    Serial.println("Wifi Connecting...");
+    display->println("Wifi Connecting...");
     WiFi.mode(WIFI_STA);
     WiFi.begin(ssid, password);
     if (WiFi.waitForConnectResult() == WL_CONNECTED)
@@ -42,41 +42,47 @@ public:
               type = "filesystem";
 
             // NOTE: if updating SPIFFS this would be the place to unmount SPIFFS using SPIFFS.end()
-            Serial.println("Start updating " + type);
+            display->clear();
+            display->println("OTA UPDATE!!!");
           })
           .onEnd([&]() {
-            Serial.println("Finished");
+            display->clear();
+            display->println("OTA UPDATE!!!");
+            display->println("Finished");
           })
           .onProgress([&](unsigned int progress, unsigned int total) {
-            Serial.println("Progress: " + progress / (total / 100));
+            display->clear();
+            display->println("OTA UPDATE!!!");
+            display->println("Progress: " + String(progress / (total / 100)) + "%");
           })
           .onError([&](ota_error_t error) {
-            Serial.println("Error: " + error);
+            display->clear();
+            display->println("OTA UPDATE!!!");
+            display->println("Error: " + String(error));
             if (error == OTA_AUTH_ERROR)
-              Serial.println("Auth Failed");
+              display->println("Auth Failed");
             else if (error == OTA_BEGIN_ERROR)
-              Serial.println("Begin Failed");
+              display->println("Begin Failed");
             else if (error == OTA_CONNECT_ERROR)
-              Serial.println("Connect Failed");
+              display->println("Connect Failed");
             else if (error == OTA_RECEIVE_ERROR)
-              Serial.println("Receive Failed");
+              display->println("Receive Failed");
             else if (error == OTA_END_ERROR)
-              Serial.println("End Failed");
+              display->println("End Failed");
           });
 
       ArduinoOTA.begin();
 
-      Serial.println("Ready");
-      Serial.println("IP address:");
-      Serial.println(WiFi.localIP().toString());
-      Serial.println("Hostname:");
-      Serial.println(HOSTNAME);
+      display->clear();
+      display->println("Connected to wifi:");
+      display->println(WiFi.localIP().toString());
+      display->println(HOSTNAME);
       delay(5000);
     }
     else
     {
-      Serial.println("Unable to connect to wifi");
-      Serial.println("Restart to retry wifi");
+      display->println("Unable to connect to wifi");
+      display->println("Restart to retry wifi");
       delay(2000);
     }
   }

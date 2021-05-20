@@ -18,7 +18,10 @@ void BalanceDisplay::setup()
 void BalanceDisplay::clear()
 {
   oled.clearDisplay();
-  oled.display();
+  oled.setCursor(0, 0);
+  oled.setFont();
+  oled.setTextColor(SSD1306_WHITE);
+  oled.setTextSize(1);
 }
 
 void BalanceDisplay::println(String text) // This is the function I want to call from otaUpdater

@@ -13,7 +13,7 @@ otaUpdater ota(balanceDisplay);
 
 void setup()
 {
-  Serial.begin(115200);
+  // Serial.begin(115200);
 
   balanceDisplay.setup();
   ota.setup();
