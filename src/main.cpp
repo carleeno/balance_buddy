@@ -1,9 +1,9 @@
 #include <Arduino.h>
-#include "ota_updater.cpp"
-#include "esc.cpp"
+#include "ota_updater.h"
+#include "esc.h"
 #include "balance_display.h"
-#include "balance_beeper.cpp"
-#include "balance_leds.cpp"
+#include "balance_beeper.h"
+#include "balance_leds.h"
 
 ESC esc;
 BalanceDisplay balanceDisplay;

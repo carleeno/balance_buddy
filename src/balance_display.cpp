@@ -1,6 +1,5 @@
 #include "balance_display.h"
 
-
 void BalanceDisplay::setup()
 {
 #ifdef USE_I2C
@@ -24,7 +23,7 @@ void BalanceDisplay::clear()
   oled.setTextSize(1);
 }
 
-void BalanceDisplay::println(String text) // This is the function I want to call from otaUpdater
+void BalanceDisplay::println(String text)
 {
   oled.setTextColor(SSD1306_WHITE);
   oled.setTextSize(1);
@@ -143,7 +142,7 @@ void BalanceDisplay::loop(double tempMosfet, double tempMotor, double dutyCycle,
     }
     oled.setCursor(2, 52);
     oled.setTextColor(SSD1306_INVERSE);
-    oled.print(int (fabs(dutyCycle) * 100));
+    oled.print(int(fabs(dutyCycle) * 100));
     oled.print("%");
 
     // Write to oled
