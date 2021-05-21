@@ -1,8 +1,10 @@
+#pragma once
+
 /*----------------------------------------------------------------------------------------
 Settings for ota_updater
 */
 #define WIFI_SSID "yourWifiName"
-#define WIFI_PASS "your wifi password"
+#define WIFI_PASS "yourWifiPassword"
 
 #define HOSTNAME "my-vesc"
 
@@ -24,9 +26,9 @@ Settings for balance_display
 #define SCREEN_WIDTH 128 // OLED display width, in pixels
 #define SCREEN_HEIGHT 64 // OLED display height, in pixels
 
-/* Uncomment below if using I2C, otherwise use SPI
-i2c is very slow, using it will cause inconsistent beeper timings
-long i2c wires are not recommended and may cause crashing */
+/* Uncomment below if using I2C, otherwise use SPI.
+i2c is very slow, using it might cause inconsistent beeper timings.
+Long i2c wires are not recommended and may cause crashing. */
 
 //#define USE_I2C
 #ifdef USE_I2C

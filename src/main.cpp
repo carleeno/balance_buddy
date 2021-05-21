@@ -1,15 +1,15 @@
 #include <Arduino.h>
-#include "ota_updater.cpp"
-#include "esc.cpp"
-#include "balance_display.cpp"
-#include "balance_beeper.cpp"
-#include "balance_leds.cpp"
+#include "ota_updater.h"
+#include "esc.h"
+#include "balance_display.h"
+#include "balance_beeper.h"
+#include "balance_leds.h"
 
-otaUpdater ota;
 ESC esc;
 BalanceDisplay balanceDisplay;
 BalanceBeeper balanceBeeper;
 BalanceLEDs balanceLEDs;
+otaUpdater ota(balanceDisplay);
 
 void setup()
 {
