@@ -40,7 +40,7 @@ Long i2c wires are not recommended and may cause crashing. */
 #define OLED_DC 16    // RX2
 #define OLED_CS 5     // D5
 #define OLED_RESET 17 // TX2
-// hw spi pins: SCK=D18, D1(MOSI)=D23
+// hw spi pins: SCK=D18, DI(MOSI)=D23
 #endif
 
 #define REFRESH_INTERVAL 100 // 100ms = 0.1s = 10hz
