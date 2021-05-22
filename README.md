@@ -45,6 +45,12 @@ See config.h for pins
 
 See config.h for pins. SPI preffered, I2C kinda supported (but sloowwwww)
 
+### Wiring overview:
+
+Not a fancy image, but it's accurate:
+![](.wiring.png)
+
+
 # Configuration
 ## Options and pins
 

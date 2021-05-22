@@ -34,13 +34,13 @@ Long i2c wires are not recommended and may cause crashing. */
 #ifdef USE_I2C
 #include <Wire.h>
 #define I2C_ADDR 0x3c
-// i2c pins: SDA=21, SCL=22
+// i2c pins: SDA=D21, SCL=D22
 #else
 #include <SPI.h>
-#define OLED_DC 16
-#define OLED_CS 5
-#define OLED_RESET 17
-// hw spi pins: SCK=18, D1(MOSI)=23
+#define OLED_DC 16    // RX2
+#define OLED_CS 5     // D5
+#define OLED_RESET 17 // TX2
+// hw spi pins: SCK=D18, D1(MOSI)=D23
 #endif
 
 #define REFRESH_INTERVAL 100 // 100ms = 0.1s = 10hz
