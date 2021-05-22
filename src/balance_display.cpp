@@ -160,7 +160,6 @@ void BalanceDisplay::page2()
   oled.setCursor(0, 6);
   oled.setFont();
   oled.setTextSize(1);
-  oled.print("BMS: ");
   oled.print(esc->packSoC);
   oled.print("% ");
   oled.print(esc->packVoltage);
