@@ -14,6 +14,9 @@ void ESC::loop()
 {
   getRealtimeData();
   getBalance();
+#ifdef BMS_CAN_ID
+  getBMS();
+#endif
 }
 
 void ESC::getRealtimeData()
@@ -105,6 +108,50 @@ void ESC::parseBalance()
   //  Serial.print(roll);
   //  Serial.println();
 }
+
+#ifdef BMS_CAN_ID
+void ESC::getBMS()
+{
+  struct can_frame canMsg1;
+  canMsg1.can_id = (uint16_t(CAN_PACKET_PROCESS_SHORT_BUFFER) << 8) + BMS_CAN_ID;
+  canMsg1.can_dlc = 0x03;
+  canMsg1.data[0] = BALANCE_BUDDY_CAN_ID;
+  canMsg1.data[1] = 0x00;
+  canMsg1.data[2] = 0x04;
+
+  CAN.beginExtendedPacket(canMsg1.can_id, canMsg1.can_dlc);
+  CAN.write(canMsg1.data, canMsg1.can_dlc);
+  CAN.endPacket();
+
+  batchRead();
+  parseBMS();
+}
+
+void ESC::parseBMS()
+{
+  if (readBufferLength != 0x32 || readBuffer[0] != 0x04)
+  {
+    return;
+  }
+  packVoltage = (((int32_t)readBuffer[1] << 24) + ((int32_t)readBuffer[2] << 16) + ((int32_t)readBuffer[3] << 8) + ((int32_t)readBuffer[4])) / 1000.0;
+  packCurrent = (((int32_t)readBuffer[5] << 24) + ((int32_t)readBuffer[6] << 16) + ((int32_t)readBuffer[7] << 8) + ((int32_t)readBuffer[8])) / 1000.0;
+  packSoC = (uint8_t)readBuffer[9];
+  cellVoltageHigh = (((int32_t)readBuffer[10] << 24) + ((int32_t)readBuffer[11] << 16) + ((int32_t)readBuffer[12] << 8) + ((int32_t)readBuffer[13])) / 1000.0;
+  cellVoltageAverage = (((int32_t)readBuffer[14] << 24) + ((int32_t)readBuffer[15] << 16) + ((int32_t)readBuffer[16] << 8) + ((int32_t)readBuffer[17])) / 1000.0;
+  cellVoltageLow = (((int32_t)readBuffer[18] << 24) + ((int32_t)readBuffer[19] << 16) + ((int32_t)readBuffer[20] << 8) + ((int32_t)readBuffer[21])) / 1000.0;
+  cellVoltageMisMatch = (((int32_t)readBuffer[2] << 24) + ((int32_t)readBuffer[23] << 16) + ((int32_t)readBuffer[24] << 8) + ((int32_t)readBuffer[25])) / 1000.0;
+  // there's more that I don't feel like adding now
+
+  //  Serial.println("BMS Data:");
+  //  Serial.println(packVoltage);
+  //  Serial.println(packCurrent);
+  //  Serial.println(packSoC);
+  //  Serial.println(cellVoltageHigh);
+  //  Serial.println(cellVoltageAverage);
+  //  Serial.println(cellVoltageLow);
+  //  Serial.println(cellVoltageMisMatch);
+}
+#endif
 
 void ESC::printFrame(struct can_frame *frame)
 {

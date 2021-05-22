@@ -1,3 +1,4 @@
+#pragma once
 #include <CAN.h>
 #include "config.h"
 
@@ -77,6 +78,12 @@ private:
 
   void parseBalance();
 
+#ifdef BMS_CAN_ID
+  void getBMS();
+
+  void parseBMS();
+#endif
+
   void printFrame(struct can_frame *frame);
 
   void batchRead();
@@ -105,6 +112,16 @@ public:
   uint16_t switchState;
   double adc1;
   double adc2;
+
+  // BMS vars
+  double packVoltage;
+  double packCurrent;
+  uint8_t packSoC;
+  double cellVoltageHigh;
+  double cellVoltageAverage;
+  double cellVoltageLow;
+  double cellVoltageMisMatch;
+  // there's more that I don't feel like adding now
 
   void setup();
 

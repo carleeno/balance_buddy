@@ -6,7 +6,7 @@
 #include "balance_leds.h"
 
 ESC esc;
-BalanceDisplay balanceDisplay;
+BalanceDisplay balanceDisplay(esc);
 BalanceBeeper balanceBeeper;
 BalanceLEDs balanceLEDs;
 otaUpdater ota(balanceDisplay);
@@ -26,7 +26,7 @@ void loop()
 {
   ota.loop();
   esc.loop();
-  balanceDisplay.loop(esc.speed_ms, esc.tempMosfet, esc.tempMotor, esc.dutyCycle, esc.voltage, esc.balanceState, esc.switchState, esc.adc1, esc.adc2);
+  balanceDisplay.loop();
   balanceBeeper.loop(esc.dutyCycle, esc.erpm, esc.switchState, esc.voltage);
   balanceLEDs.loop(esc.erpm, esc.switchState);
 }
