@@ -14,6 +14,16 @@ private:
   long lastRenderMillis = 0;
   int line = 1;
   double dc_step = 1.0 / (SCREEN_WIDTH - 2);
+  double speed;
+  double top_speed;
+
+#ifdef USE_MPH
+  double speed_conversion = 2.23694;
+  String speed_unit = "mph";
+#else
+  double speed_conversion = 3.6;
+  String speed_unit = "km/h";
+#endif
 
 public:
   void setup();
@@ -22,5 +32,5 @@ public:
 
   void println(String text);
 
-  void loop(double tempMosfet, double tempMotor, double dutyCycle, double voltage, uint16_t balanceState, uint16_t switchState, double adc1, double adc2);
+  void loop(double speed_ms, double tempMosfet, double tempMotor, double dutyCycle, double voltage, uint16_t balanceState, uint16_t switchState, double adc1, double adc2);
 };

@@ -31,11 +31,16 @@ void BalanceDisplay::println(String text)
   oled.display();
 }
 
-void BalanceDisplay::loop(double tempMosfet, double tempMotor, double dutyCycle, double voltage, uint16_t balanceState, uint16_t switchState, double adc1, double adc2)
+void BalanceDisplay::loop(double speed_ms, double tempMosfet, double tempMotor, double dutyCycle, double voltage, uint16_t balanceState, uint16_t switchState, double adc1, double adc2)
 {
   if (lastRenderMillis + REFRESH_INTERVAL < millis())
   {
     lastRenderMillis = millis();
+    speed = fabs(speed_ms) * speed_conversion;
+    if (speed > top_speed)
+    {
+      top_speed = speed;
+    }
 
     oled.clearDisplay();
     oled.setTextColor(SSD1306_WHITE);
@@ -142,8 +147,17 @@ void BalanceDisplay::loop(double tempMosfet, double tempMotor, double dutyCycle,
     }
     oled.setCursor(2, 52);
     oled.setTextColor(SSD1306_INVERSE);
-    oled.print(int(fabs(dutyCycle) * 100));
-    oled.print("%");
+    if (speed > 0.5)
+    {
+      oled.print(speed);
+      oled.print(speed_unit);
+    }
+    else
+    {
+      oled.print("Top speed: ");
+      oled.print(top_speed);
+      oled.print(speed_unit);
+    }
 
     // Write to oled
     oled.display();

@@ -69,6 +69,20 @@ private:
   uint8_t readBufferInfo[8];
   uint8_t readBufferInfoLength = 0;
 
+  void getRealtimeData();
+
+  void parseRealtimeData();
+
+  void getBalance();
+
+  void parseBalance();
+
+  void printFrame(struct can_frame *frame);
+
+  void batchRead();
+
+  void convert_erpm();
+
 public:
   // RT Data vars
   double tempMosfet;
@@ -77,6 +91,8 @@ public:
   double erpm;
   double voltage;
   uint8_t fault;
+  double rpm;
+  double speed_ms;
 
   // Balance vars
   double pidOutput;
@@ -93,16 +109,4 @@ public:
   void setup();
 
   void loop();
-
-  void getRealtimeData();
-
-  void parseRealtimeData();
-
-  void getBalance();
-
-  void parseBalance();
-
-  void printFrame(struct can_frame *frame);
-
-  void batchRead();
 };

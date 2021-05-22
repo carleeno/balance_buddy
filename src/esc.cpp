@@ -49,6 +49,7 @@ void ESC::parseRealtimeData()
   erpm = (((int32_t)readBuffer[11] << 24) + ((int32_t)readBuffer[12] << 16) + ((int32_t)readBuffer[13] << 8) + ((int32_t)readBuffer[14]));
   voltage = (((int16_t)readBuffer[15] << 8) + ((int16_t)readBuffer[16])) / 10.0;
   fault = readBuffer[17];
+  convert_erpm();
 
   //  Serial.print("Mosfet Temp: ");
   //  Serial.print(tempMosfet);
@@ -194,4 +195,10 @@ void ESC::batchRead()
     readBufferLength = 0;
     readBufferInfoLength = 0;
   }
+}
+
+void ESC::convert_erpm()
+{
+  rpm = erpm / (MOTOR_POLES / 2);
+  speed_ms = rpm * WHEEL_DIAMETER_MM * PI / 1000 / 60;
 }

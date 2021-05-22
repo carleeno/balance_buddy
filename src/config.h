@@ -45,6 +45,8 @@ Long i2c wires are not recommended and may cause crashing. */
 
 #define REFRESH_INTERVAL 100 // 100ms = 0.1s = 10hz
 
+#define USE_MPH // comment for km/h
+
 /*----------------------------------------------------------------------------------------
 Settings for balance_leds
 */
@@ -74,3 +76,7 @@ Settings for esc
 
 #define CAN_RX_PIN 12
 #define CAN_TX_PIN 13
+
+// Copy these from your vesc motor config
+#define MOTOR_POLES 30
+#define WHEEL_DIAMETER_MM 280
