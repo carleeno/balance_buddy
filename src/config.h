@@ -44,6 +44,7 @@ Long i2c wires are not recommended and may cause crashing. */
 #endif
 
 #define REFRESH_INTERVAL 100 // 100ms = 0.1s = 10hz
+#define PAGE_TIME 4000 // milliseconds, how long it displays each info page while stopped.
 
 #define USE_MPH // comment for km/h
 
@@ -80,3 +81,6 @@ Settings for esc
 // Copy these from your vesc motor config
 #define MOTOR_POLES 30
 #define WHEEL_DIAMETER_MM 280
+
+// For BMS on canbus, else comment out
+// #define BMS_CAN_ID 10
