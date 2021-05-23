@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include <Arduino.h>
+#include "config.h"
 
 class Beeper
 {
@@ -15,6 +16,8 @@ private:
   bool isBeeping = false;
   int beepsLength = 0;
   struct Beep beeps[20];
+
+  void play(Beep beep);
 
 public:
   Beeper(int beeper_pin);
