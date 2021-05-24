@@ -161,35 +161,35 @@ void Beeper::queueSad()
   beeps[0].frequency = 2900;
   beeps[0].triggered = false;
   // Off
-  beeps[1].startOffset = 70;
+  beeps[1].startOffset = 100;
   beeps[1].frequency = 0;
   beeps[1].triggered = false;
   // Sad
-  beeps[2].startOffset = 100;
+  beeps[2].startOffset = 200;
   beeps[2].frequency = 2600;
   beeps[2].triggered = false;
   // Off
-  beeps[3].startOffset = 170;
+  beeps[3].startOffset = 300;
   beeps[3].frequency = 0;
   beeps[3].triggered = false;
   // Sad
-  beeps[4].startOffset = 200;
+  beeps[4].startOffset = 400;
   beeps[4].frequency = 2300;
   beeps[4].triggered = false;
   // Off
-  beeps[5].startOffset = 270;
+  beeps[5].startOffset = 500;
   beeps[5].frequency = 0;
   beeps[5].triggered = false;
   // Sad
-  beeps[6].startOffset = 300;
+  beeps[6].startOffset = 600;
   beeps[6].frequency = 2000;
   beeps[6].triggered = false;
   // Off
-  beeps[7].startOffset = 600;
+  beeps[7].startOffset = 1200;
   beeps[7].frequency = 0;
   beeps[7].triggered = false;
   // Finish off
-  beeps[8].startOffset = 900;
+  beeps[8].startOffset = 1500;
   beeps[8].frequency = 0;
   beeps[8].triggered = false;
 }
