@@ -139,7 +139,7 @@ void ESC::parseBMS()
   cellVoltageHigh = (((int32_t)readBuffer[10] << 24) + ((int32_t)readBuffer[11] << 16) + ((int32_t)readBuffer[12] << 8) + ((int32_t)readBuffer[13])) / 1000.0;
   cellVoltageAverage = (((int32_t)readBuffer[14] << 24) + ((int32_t)readBuffer[15] << 16) + ((int32_t)readBuffer[16] << 8) + ((int32_t)readBuffer[17])) / 1000.0;
   cellVoltageLow = (((int32_t)readBuffer[18] << 24) + ((int32_t)readBuffer[19] << 16) + ((int32_t)readBuffer[20] << 8) + ((int32_t)readBuffer[21])) / 1000.0;
-  cellVoltageMisMatch = (((int32_t)readBuffer[2] << 24) + ((int32_t)readBuffer[23] << 16) + ((int32_t)readBuffer[24] << 8) + ((int32_t)readBuffer[25])) / 1000.0;
+  cellVoltageMisMatch = (((int32_t)readBuffer[22] << 24) + ((int32_t)readBuffer[23] << 16) + ((int32_t)readBuffer[24] << 8) + ((int32_t)readBuffer[25])) / 1000.0;
   // there's more that I don't feel like adding now
 
   //  Serial.println("BMS Data:");
