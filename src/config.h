@@ -13,6 +13,7 @@ Settings for balance_beeper
 */
 #define BEEPER_PIN 27
 
+#define FREQ_CONTROL true // disable if your beeper sounds bad or interferes with leds
 #define PLAY_STARTUP true
 #define DUTY_CYCLE_ALERT 0.80          // 0 to disable
 #define SWITCH_ERPM 1000               // 0 to disable
