@@ -46,12 +46,12 @@ void ESC::parseRealtimeData()
   {
     return;
   }
-  tempMosfet = (((int16_t)readBuffer[5] << 8) + ((int16_t)readBuffer[6])) / 10.0;
-  tempMotor = (((int16_t)readBuffer[7] << 8) + ((int16_t)readBuffer[8])) / 10.0;
-  dutyCycle = int16_t(((int16_t)readBuffer[9] << 8) + ((int16_t)readBuffer[10])) / 1000.0;
-  erpm = (((int32_t)readBuffer[11] << 24) + ((int32_t)readBuffer[12] << 16) + ((int32_t)readBuffer[13] << 8) + ((int32_t)readBuffer[14]));
-  voltage = (((int16_t)readBuffer[15] << 8) + ((int16_t)readBuffer[16])) / 10.0;
-  fault = readBuffer[17];
+  tempMosfet = read_double_2(5, 10);
+  tempMotor = read_double_2(7, 10);
+  dutyCycle = read_double_2(9, 1000);
+  erpm = read_double_4(11, 1);
+  voltage = read_double_2(15, 10);
+  fault = read_uint8(17);
   convert_erpm();
 
   //  Serial.print("Mosfet Temp: ");
@@ -88,16 +88,16 @@ void ESC::parseBalance()
   {
     return;
   }
-  pidOutput = (((int32_t)readBuffer[1] << 24) + ((int32_t)readBuffer[2] << 16) + ((int32_t)readBuffer[3] << 8) + ((int32_t)readBuffer[4])) / 1000000.0;
-  pitch = (((int32_t)readBuffer[5] << 24) + ((int32_t)readBuffer[6] << 16) + ((int32_t)readBuffer[7] << 8) + ((int32_t)readBuffer[8])) / 1000000.0;
-  roll = (((int32_t)readBuffer[9] << 24) + ((int32_t)readBuffer[10] << 16) + ((int32_t)readBuffer[11] << 8) + ((int32_t)readBuffer[12])) / 1000000.0;
-  loopTime = ((uint32_t)readBuffer[13] << 24) + ((uint32_t)readBuffer[14] << 16) + ((uint32_t)readBuffer[15] << 8) + ((uint32_t)readBuffer[16]);
-  motorCurrent = (((int32_t)readBuffer[17] << 24) + ((int32_t)readBuffer[18] << 16) + ((int32_t)readBuffer[19] << 8) + ((int32_t)readBuffer[20])) / 1000000.0;
-  motorPosition = (((int32_t)readBuffer[21] << 24) + ((int32_t)readBuffer[22] << 16) + ((int32_t)readBuffer[23] << 8) + ((int32_t)readBuffer[24])) / 1000000.0;
-  balanceState = ((uint16_t)readBuffer[25] << 8) + ((uint16_t)readBuffer[26]);
-  switchState = ((uint16_t)readBuffer[27] << 8) + ((uint16_t)readBuffer[28]);
-  adc1 = (((int32_t)readBuffer[29] << 24) + ((int32_t)readBuffer[30] << 16) + ((int32_t)readBuffer[31] << 8) + ((int32_t)readBuffer[32])) / 1000000.0;
-  adc2 = (((int32_t)readBuffer[33] << 24) + ((int32_t)readBuffer[34] << 16) + ((int32_t)readBuffer[35] << 8) + ((int32_t)readBuffer[36])) / 1000000.0;
+  pidOutput = read_double_4(1, 1000000);
+  pitch = read_double_4(5, 1000000);
+  roll = read_double_4(9, 1000000);
+  loopTime = read_uint32(13);
+  motorCurrent = read_double_4(17, 1000000);
+  motorPosition = read_double_4(21, 1000000);
+  balanceState = read_uint16(25);
+  switchState = read_uint16(27);
+  adc1 = read_double_4(29, 1000000);
+  adc2 = read_double_4(33, 1000000);
   //  Serial.print("PID Output: ");
   //  Serial.print(pidOutput);
   //  Serial.println();
@@ -133,13 +133,13 @@ void ESC::parseBMS()
   {
     return;
   }
-  packVoltage = (((int32_t)readBuffer[1] << 24) + ((int32_t)readBuffer[2] << 16) + ((int32_t)readBuffer[3] << 8) + ((int32_t)readBuffer[4])) / 1000.0;
-  packCurrent = (((int32_t)readBuffer[5] << 24) + ((int32_t)readBuffer[6] << 16) + ((int32_t)readBuffer[7] << 8) + ((int32_t)readBuffer[8])) / 1000.0;
-  packSoC = (uint8_t)readBuffer[9];
-  cellVoltageHigh = (((int32_t)readBuffer[10] << 24) + ((int32_t)readBuffer[11] << 16) + ((int32_t)readBuffer[12] << 8) + ((int32_t)readBuffer[13])) / 1000.0;
-  cellVoltageAverage = (((int32_t)readBuffer[14] << 24) + ((int32_t)readBuffer[15] << 16) + ((int32_t)readBuffer[16] << 8) + ((int32_t)readBuffer[17])) / 1000.0;
-  cellVoltageLow = (((int32_t)readBuffer[18] << 24) + ((int32_t)readBuffer[19] << 16) + ((int32_t)readBuffer[20] << 8) + ((int32_t)readBuffer[21])) / 1000.0;
-  cellVoltageMisMatch = (((int32_t)readBuffer[22] << 24) + ((int32_t)readBuffer[23] << 16) + ((int32_t)readBuffer[24] << 8) + ((int32_t)readBuffer[25])) / 1000.0;
+  packVoltage = read_double_4(1, 1000);
+  packCurrent = read_double_4(5, 1000);
+  packSoC = read_uint8(9);
+  cellVoltageHigh = read_double_4(10, 1000);
+  cellVoltageAverage = read_double_4(14, 1000);
+  cellVoltageLow = read_double_4(18, 1000);
+  cellVoltageMisMatch = read_double_4(22, 1000);
   // there's more that I don't feel like adding now
 
   //  Serial.println("BMS Data:");
@@ -152,6 +152,35 @@ void ESC::parseBMS()
   //  Serial.println(cellVoltageMisMatch);
 }
 #endif
+
+uint8_t ESC::read_uint8(uint8_t pos)
+{
+  return readBuffer[pos];
+}
+
+uint16_t ESC::read_uint16(uint8_t pos)
+{
+  return ((uint16_t)readBuffer[pos] << 8) + ((uint16_t)readBuffer[pos+1]);
+}
+
+uint32_t ESC::read_uint32(uint8_t pos)
+{
+  return ((uint32_t)readBuffer[pos] << 24) + ((uint32_t)readBuffer[pos+1] << 16) + ((uint32_t)readBuffer[pos+2] << 8) + ((uint32_t)readBuffer[pos+3]);
+}
+
+double ESC::read_double_2(uint8_t pos, double scale)
+{
+  if (scale == 0.0)
+    scale = 1.0;
+  return int16_t(((int16_t)readBuffer[pos] << 8) + ((int16_t)readBuffer[pos+1])) / scale;
+}
+
+double ESC::read_double_4(uint8_t pos, double scale)
+{
+  if (scale == 0.0)
+    scale = 1.0;
+  return (((int32_t)readBuffer[pos] << 24) + ((int32_t)readBuffer[pos+1] << 16) + ((int32_t)readBuffer[pos+2] << 8) + ((int32_t)readBuffer[pos+3])) / scale;
+}
 
 void ESC::printFrame(struct can_frame *frame)
 {

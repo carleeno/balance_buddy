@@ -90,6 +90,12 @@ private:
 
   void convert_erpm();
 
+  uint8_t read_uint8(uint8_t pos);
+  uint16_t read_uint16(uint8_t pos);
+  uint32_t read_uint32(uint8_t pos);
+  double read_double_2(uint8_t pos, double scale);
+  double read_double_4(uint8_t pos, double scale);
+
 public:
   // RT Data vars
   double tempMosfet;
