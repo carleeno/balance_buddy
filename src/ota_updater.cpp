@@ -41,6 +41,7 @@ void otaUpdater::setup()
           display->clear();
           display->println("OTA UPDATE!!!");
           display->println("Progress: " + String(progress / (total / 100)) + "%");
+          display->println("Signal: " + String(WiFi.RSSI()));
         })
         .onError([&](ota_error_t error) {
           display->clear();
@@ -56,6 +57,7 @@ void otaUpdater::setup()
             display->println("Receive Failed");
           else if (error == OTA_END_ERROR)
             display->println("End Failed");
+          delay(10000);
         });
 
     ArduinoOTA.begin();

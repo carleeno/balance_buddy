@@ -44,7 +44,7 @@ void BalanceDisplay::loop()
       page = 1;
     }
   }
-  if (speed > 0.5)
+  if (esc->switchState > 0)
   {
     lastPageMillis = millis();
     page = 1;
