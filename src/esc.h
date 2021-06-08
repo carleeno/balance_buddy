@@ -62,33 +62,43 @@ private:
     unsigned char data[8] __attribute__((aligned(8)));
   };
 
-  struct can_frame responses[10];
-  int responsesLength = 0;
+  struct can_frame currentPacket;
 
   uint8_t readBuffer[50];
   uint8_t readBufferLength = 0;
   uint8_t readBufferInfo[8];
   uint8_t readBufferInfoLength = 0;
 
+  bool requestSent = false;
+  uint8_t step = 0;
+  long lastRequestMillis = 0;
+  unsigned char requestID;
+  uint16_t expectedLength;
+  uint16_t supposedLength = 0;
+
+  void sendNextRequest();
   void getRealtimeData();
-
-  void parseRealtimeData();
-
   void getBalance();
 
+  void parseRequest();
+  void parseRealtimeData();
   void parseBalance();
+  void convert_erpm();
 
 #ifdef BMS_CAN_ID
   void getBMS();
-
   void parseBMS();
 #endif
 
+  void startOver();
+  void readCAN();
   void printFrame(struct can_frame *frame);
 
-  void batchRead();
-
-  void convert_erpm();
+  uint8_t read_uint8(uint8_t pos);
+  uint16_t read_uint16(uint8_t pos);
+  uint32_t read_uint32(uint8_t pos);
+  double read_double_2(uint8_t pos, double scale);
+  double read_double_4(uint8_t pos, double scale);
 
 public:
   // RT Data vars
