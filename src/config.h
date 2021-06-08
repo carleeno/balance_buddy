@@ -85,3 +85,6 @@ Settings for esc
 
 // For BMS on canbus, else comment out
 // #define BMS_CAN_ID 10
+
+#define CAN_INTERVAL 30  // milliseconds, minimum time between data requests, prevent hammering the bus
+#define CAN_TIMEOUT 1000 // milliseconds, how long until we give up and try to request data again
